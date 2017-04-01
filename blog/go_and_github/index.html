@@ -17,9 +17,6 @@
 <meta name="generator" content="Hugo 0.19" />
 
 
-  <link href="Page%28%22404%20Page%20not%20found%22%29" rel="alternate" type="application/rss+xml" title="paganini.net" />
-  <link href="Page%28%22404%20Page%20not%20found%22%29" rel="feed" type="application/rss+xml" title="paganini.net" />
-
 
 
 
@@ -44,9 +41,48 @@
 <div class="container">
 
 
-<section id="error-pane" class="row text-center error">
-  <h1 class="text-center">404</h1>
-  <p>Sorry! That page does not exist. It may have been removed or moved to a new section on the site. Click <a href="/">here</a> go back to the home page.</p>
+
+
+<h1 id="go-and-github">Go and Github</h1>
+
+<p>This is a very brief guide on how to set up your work environment to create Go programs.</p>
+
+<p>Go uses the concept of a &ldquo;workspace&rdquo; to organize your source code and binaries. A workspace is basically a directory with three sub-directories under it: <code>src</code>, <code>pkg</code>, and <code>bin</code>.This sructure is explained in detail in the excellent <a href="https://golang.org/doc/code.html">(How to Write Go Code)</a> article.</p>
+
+<h2 id="setup-your-github-directory-structure">Setup your github directory structure</h2>
+
+<p>I find it useful to download clone all my github repositories under a fixed directory structure. In this case, I&rsquo;d recommend <code>~/github</code> as the base directory. Every cloned project will go under <code>~/github/&lt;repo-username&gt;</code>. To set this up, create the initial github directory:</p>
+
+<pre><code>  mkdir ~/github
+</code></pre>
+
+<p>As a test, let&rsquo;s clone one particular project out of github. Suppose you want
+to clone my github &ldquo;termschool&rdquo; vim theme, located at
+<a href="https://github.com/marcopaganini/termschool-vim-theme">https://github.com/marcopaganini/termschool-vim-theme</a>. In this case, notice the
+github username (marcopaganini). To clone this project, create a directory
+called <code>marcopaganini</code> under <code>~/github</code> and clone it there using git clone:</p>
+
+<pre><code>  mkdir ~/github/marcopaganini
+  cd github/marcopaganini
+  git clone git@github.com:marcopaganini/termschool-vim-theme.git
+</code></pre>
+
+<p>To confirm</p>
+
+
+
+
+
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="http://paganini.net/">home</a></h4>
 </section>
 
 
@@ -73,4 +109,5 @@
 <script src="js/main.js"></script>
 </body>
 </html>
+
 

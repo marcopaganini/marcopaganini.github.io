@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on paganini.net</title>
+    <link>http://paganini.net/blog/index.xml</link>
+    <description>Recent content in Blogs on paganini.net</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Mar 2017 21:15:00 -0700</lastBuildDate>
+    <atom:link href="http://paganini.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Developing in Go using github</title>
+      <link>http://paganini.net/blog/go_and_github/</link>
+      <pubDate>Wed, 15 Mar 2017 21:15:00 -0700</pubDate>
+      
+      <guid>http://paganini.net/blog/go_and_github/</guid>
+      <description>
+
+&lt;h1 id=&#34;go-and-github&#34;&gt;Go and Github&lt;/h1&gt;
+
+&lt;p&gt;This is a very brief guide on how to set up your work environment to create Go programs.&lt;/p&gt;
+
+&lt;p&gt;Go uses the concept of a &amp;ldquo;workspace&amp;rdquo; to organize your source code and binaries. A workspace is basically a directory with three sub-directories under it: &lt;code&gt;src&lt;/code&gt;, &lt;code&gt;pkg&lt;/code&gt;, and &lt;code&gt;bin&lt;/code&gt;.This sructure is explained in detail in the excellent &lt;a href=&#34;https://golang.org/doc/code.html&#34;&gt;(How to Write Go Code)&lt;/a&gt; article.&lt;/p&gt;
+
+&lt;h2 id=&#34;setup-your-github-directory-structure&#34;&gt;Setup your github directory structure&lt;/h2&gt;
+
+&lt;p&gt;I find it useful to download clone all my github repositories under a fixed directory structure. In this case, I&amp;rsquo;d recommend &lt;code&gt;~/github&lt;/code&gt; as the base directory. Every cloned project will go under &lt;code&gt;~/github/&amp;lt;repo-username&amp;gt;&lt;/code&gt;. To set this up, create the initial github directory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  mkdir ~/github
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As a test, let&amp;rsquo;s clone one particular project out of github. Suppose you want
+to clone my github &amp;ldquo;termschool&amp;rdquo; vim theme, located at
+&lt;a href=&#34;https://github.com/marcopaganini/termschool-vim-theme&#34;&gt;https://github.com/marcopaganini/termschool-vim-theme&lt;/a&gt;. In this case, notice the
+github username (marcopaganini). To clone this project, create a directory
+called &lt;code&gt;marcopaganini&lt;/code&gt; under &lt;code&gt;~/github&lt;/code&gt; and clone it there using git clone:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  mkdir ~/github/marcopaganini
+  cd github/marcopaganini
+  git clone git@github.com:marcopaganini/termschool-vim-theme.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To confirm&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
