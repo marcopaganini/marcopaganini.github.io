@@ -2,215 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>paganini.net</title>
-    <link>http://paganini.net/index.xml</link>
+    <link>https://www.paganini.net/</link>
     <description>Recent content on paganini.net</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 11 Mar 2017 19:27:39 -0800</lastBuildDate>
-    <atom:link href="http://paganini.net/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Developing in Go using github</title>
-      <link>http://paganini.net/blog/go_and_github/</link>
-      <pubDate>Wed, 15 Mar 2017 21:15:00 -0700</pubDate>
-      
-      <guid>http://paganini.net/blog/go_and_github/</guid>
-      <description>
-
-&lt;h1 id=&#34;go-and-github&#34;&gt;Go and Github&lt;/h1&gt;
-
-&lt;p&gt;This is a very brief guide on how to set up your work environment to create Go programs.&lt;/p&gt;
-
-&lt;p&gt;Go uses the concept of a &amp;ldquo;workspace&amp;rdquo; to organize your source code and binaries. A workspace is basically a directory with three sub-directories under it: &lt;code&gt;src&lt;/code&gt;, &lt;code&gt;pkg&lt;/code&gt;, and &lt;code&gt;bin&lt;/code&gt;.This sructure is explained in detail in the excellent &lt;a href=&#34;https://golang.org/doc/code.html&#34;&gt;(How to Write Go Code)&lt;/a&gt; article.&lt;/p&gt;
-
-&lt;h2 id=&#34;setup-your-github-directory-structure&#34;&gt;Setup your github directory structure&lt;/h2&gt;
-
-&lt;p&gt;I find it useful to download clone all my github repositories under a fixed directory structure. In this case, I&amp;rsquo;d recommend &lt;code&gt;~/github&lt;/code&gt; as the base directory. Every cloned project will go under &lt;code&gt;~/github/&amp;lt;repo-username&amp;gt;&lt;/code&gt;. To set this up, create the initial github directory:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  mkdir ~/github
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As a test, let&amp;rsquo;s clone one particular project out of github. Suppose you want
-to clone my github &amp;ldquo;termschool&amp;rdquo; vim theme, located at
-&lt;a href=&#34;https://github.com/marcopaganini/termschool-vim-theme&#34;&gt;https://github.com/marcopaganini/termschool-vim-theme&lt;/a&gt;. In this case, notice the
-github username (marcopaganini). To clone this project, create a directory
-called &lt;code&gt;marcopaganini&lt;/code&gt; under &lt;code&gt;~/github&lt;/code&gt; and clone it there using git clone:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;  mkdir ~/github/marcopaganini
-  cd github/marcopaganini
-  git clone git@github.com:marcopaganini/termschool-vim-theme.git
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To confirm&lt;/p&gt;
-</description>
-    </item>
+	<atom:link href="https://www.paganini.net/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Marco Paganini - Resume</title>
-      <link>http://paganini.net/resume/</link>
+      <link>https://www.paganini.net/resume/</link>
       <pubDate>Sat, 11 Mar 2017 19:27:39 -0800</pubDate>
       
-      <guid>http://paganini.net/resume/</guid>
-      <description>
-
-&lt;h1 id=&#34;marco-paganini-resume&#34;&gt;Marco Paganini - Resume&lt;/h1&gt;
-
-&lt;h2 id=&#34;foreword&#34;&gt;Foreword&lt;/h2&gt;
-
-&lt;p&gt;In 2007 I joined Google, where I currently work. This resume is heavily
-outdated and doesn&amp;rsquo;t reflect details of my professional experience since that
-date. For further information, please contact me directly at
-paganini[at]paganini[dot]net.&lt;/p&gt;
-
-&lt;h2 id=&#34;objective&#34;&gt;Objective&lt;/h2&gt;
-
-&lt;p&gt;I&amp;rsquo;m drawn to challenging positions in the field of Site Reliability Engineering,
-Systems and Network administration, Technical Management, and/or basically
-anything that keeps production services up and running.&lt;/p&gt;
-
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;Solid knowledge of Site Reliability Engineering practices, Unix/Linux system
-internals, networking, automation, and monitoring of high availability
-production systems (Google SRE since 2007).&lt;/p&gt;
-
-&lt;p&gt;Very familiar with many of the technologies and protocols used in modern
-production services, including containers, load balancing, clustering, HTTP,
-SSL, SMTP, DNS, TCP/IP, and many servers implementing them (Apache/nginx,
-various mail servers, bind, etc).&lt;/p&gt;
-
-&lt;p&gt;Fluent in a number of programming languages and frameworks, including C, Python,
-Golang, Shell, Javascript, and markup languages such as HTML, XML, YAML, etc.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m an author, heavy user, and a firm believer of open source solutions
-(whenever possible).&lt;/p&gt;
-
-&lt;h2 id=&#34;work-experience&#34;&gt;Work Experience&lt;/h2&gt;
-
-&lt;h3 id=&#34;2007-present-google-inc-ca&#34;&gt;2007-Present - Google Inc, CA&lt;/h3&gt;
-
-&lt;p&gt;Role: Staff Site Reliability Engineer&lt;/p&gt;
-
-&lt;h3 id=&#34;1999-2007-nds-americas-miami-lakes-fl&#34;&gt;1999-2007 - NDS Americas, Miami Lakes, FL&lt;/h3&gt;
-
-&lt;p&gt;Roles: Technical Manager (2003-2007) and Applications/Systems Engineer (1999-2003)&lt;/p&gt;
-
-&lt;p&gt;The primary task in this role is to support the NDS Broadcasting and
-Conditional Access systems, to guarantee an uptime of over 99.5%, and minimize
-chances of service interruption.&lt;/p&gt;
-
-&lt;p&gt;The daily mix of tasks includes HP-UX system administration, Cisco router
-configuration (Frame Relay, load balancing, redundancy, routing protocols), WAN
-and LAN setup, administration and monitoring, Oracle and Informix support and
-Installation, Firewall monitoring and administration (Cisco PIX) and any other
-requirements to maintain the systems operating at their peak.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Responsible for the technical support to all Sky Latin America Platforms (Sky Brasil, Sky Mexico and Sky Multi-country).&lt;/li&gt;
-&lt;li&gt;Defined backup strategies and emergency recovery procedures for all clustered and standalone servers.&lt;/li&gt;
-&lt;li&gt;Creation of web-based systems (Perl/Python/Javascript/Linux/Apache) to provide an easy to use interface to the broadcasting and conditional access databases (Oracle).&lt;/li&gt;
-&lt;li&gt;Monitoring of the applications and clustered servers using Nagios plus customized plugins and applications in Perl + SNMP.&lt;/li&gt;
-&lt;li&gt;Configuration and management of ServiceGuard under HP-UX and &amp;ldquo;heartbeat&amp;rdquo; under Linux.&lt;/li&gt;
-&lt;li&gt;Network performance management and analysis.&lt;/li&gt;
-&lt;li&gt;HP-UX and Linux performance analysis and optimization.&lt;/li&gt;
-&lt;li&gt;Oracle database performance analysis and optimization.&lt;/li&gt;
-&lt;li&gt;Creation of a large number of smaller support tools using Python and Perl.&lt;/li&gt;
-&lt;li&gt;Direct and full knowledge of the broadcasting system used by NDS/Sky, and all other systems related to it, including the Conditional Access and Broadcast systems, Tandberg and Harmonic multiplexors, encoders and Multiplex control computers.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;1994-1999-brasif-duty-free-rio-de-janeiro-brazil&#34;&gt;1994-1999 - Brasif Duty Free, Rio de Janeiro, Brazil&lt;/h3&gt;
-
-&lt;p&gt;Role: Sr. Unix/Network Administrator&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Administration of 28 Unix servers running Oracle 7, under HP-UX and SCO Unix.&lt;/li&gt;
-&lt;li&gt;Oracle database administration.&lt;/li&gt;
-&lt;li&gt;Design of the corporate LAN and WAN (Fast Ethernet, Cisco routers, Frame relay, X25, PPP and HDLC).&lt;/li&gt;
-&lt;li&gt;Design and setup of the corporate Internet Gateway (Server, Cisco router using ACLs, Proxy servers and firewall setup on the Linux server)&lt;/li&gt;
-&lt;li&gt;Definition of policies for users and network workstations (Win9X/NT).&lt;/li&gt;
-&lt;li&gt;Creation of a centralized and automatic backup control system for the Unix servers and databases, using Omni-Back II and the built in Unix commands where Omni-back was not available.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;1991-1994-chocolate-com-de-roupas-rio-de-janeiro-brazil&#34;&gt;1991-1994 - Chocolate Com de Roupas, Rio de Janeiro, Brazil&lt;/h3&gt;
-
-&lt;p&gt;Role: Senior Systems Analyst&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Interactive Unix support and Administration.&lt;/li&gt;
-&lt;li&gt;Point of Sale analysis and programming.&lt;/li&gt;
-&lt;li&gt;After 1994, (as a consultant): Netware and SCO Unix setup and administration.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;1990-1991-casas-sendas-com-ind-rio-de-janeiro-brazil&#34;&gt;1990-1991 - Casas Sendas Com. Ind, Rio de Janeiro, Brazil&lt;/h3&gt;
-
-&lt;p&gt;Role: Support Engineer&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Responsible for all aspects involving data communications between the company headquarters and its units.&lt;/li&gt;
-&lt;li&gt;User access system, running on the workstations.&lt;/li&gt;
-&lt;li&gt;Technical ownership of the &amp;ldquo;Remote Support&amp;rdquo; service, allowing remote control of workstations installed at the branch offices.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;1986-1990-sector-informatica-rio-de-janeiro-brazil&#34;&gt;1986-1990 - Sector Informatica, Rio de Janeiro, Brazil&lt;/h3&gt;
-
-&lt;p&gt;Role: Pre/Post Sales Support Engineer&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Pre and post sale technical support on x86 hardware and OSes.&lt;/li&gt;
-&lt;li&gt;Support for the QNX Multi-User/Multi-tasking real-time operating system.&lt;/li&gt;
-&lt;li&gt;Rewrote a BIOS from scratch, in assembly language, and many low-level drivers for QNX and MS/DOS, using Assembly language and C.&lt;/li&gt;
-&lt;li&gt;Quality assurance program, written in C and assembly language.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;other-experiences-as-an-independent-consultant&#34;&gt;Other experiences, as an independent consultant&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;ISM Networking (Internet Provider)&lt;/strong&gt;: Linux system installation,
-including all services necessary to the daily ISP operation (Sendmail,
-News-server, etc).&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;MTEC Networking (Internet Provider)&lt;/strong&gt;: HP-UX system setup,
-administration and upgrade. Installation of the usual suite of programs
-related to the Internet connectivity (Sendmail, News-Server, setup of the
-name-server, etc).&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Montreal Internet Provider&lt;/strong&gt;: HP-UX and Linux system administration.
-Major changes in the whole internet setup, including upgrades, router
-installation and projects related to system security and performance
-analysis.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Origin Consulting&lt;/strong&gt;: Solved all sorts of communication problems
-between Origin and its ISP (Solaris x86, Cisco routers and internet routing
-protocol problems).&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Virtual Internet Provider&lt;/strong&gt;: Installation of Internet services
-and resolution of many WAN related problems.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Universidade Federal Fluminense&lt;/strong&gt; - Niteroi, RJ, Brazil: Bachelor in Business Degree.&lt;/li&gt;
-&lt;li&gt;Oracle Server Database Administration.&lt;/li&gt;
-&lt;li&gt;Oracle Server advanced Database Administration.&lt;/li&gt;
-&lt;li&gt;Xenix administration.&lt;/li&gt;
-&lt;li&gt;Netware administration.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;languages&#34;&gt;Languages&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Portuguese (native)&lt;/li&gt;
-&lt;li&gt;English (fluent)&lt;/li&gt;
-&lt;li&gt;Spanish (basics)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;contact&#34;&gt;Contact&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Email: paganini [at] paganini [dot] net&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>https://www.paganini.net/resume/</guid>
+      <description>Marco Paganini - Resume Foreword In 2007 I joined Google, where I currently work. This resume is heavily outdated and doesn&amp;rsquo;t reflect details of my professional experience since that date. For further information, please contact me directly at paganini[at]paganini[dot]net.
+Objective I&amp;rsquo;m drawn to challenging positions in the field of Site Reliability Engineering, Systems and Network administration, Technical Management, and/or basically anything that keeps production services up and running.
+Summary Solid knowledge of Site Reliability Engineering practices, Unix/Linux system internals, networking, automation, and monitoring of high availability production systems (Google SRE since 2007).</description>
     </item>
     
   </channel>

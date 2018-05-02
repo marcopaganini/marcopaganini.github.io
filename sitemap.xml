@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://paganini.net/blog/go_and_github/</loc>
-    <lastmod>2017-03-15T21:15:00-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://paganini.net/resume/</loc>
+    <loc>https://www.paganini.net/resume/</loc>
     <lastmod>2017-03-11T19:27:39-08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://paganini.net/</loc>
+    <loc>https://www.paganini.net/</loc>
     <lastmod>2017-03-11T19:27:39-08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://paganini.net/blog/</loc>
-    <lastmod>2017-03-15T21:15:00-07:00</lastmod>
+    <loc>https://www.paganini.net/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://paganini.net/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://paganini.net/categories/golang/</loc>
-    <lastmod>2017-03-15T21:15:00-07:00</lastmod>
+    <loc>https://www.paganini.net/tags/</loc>
     <priority>0</priority>
   </url>
   
