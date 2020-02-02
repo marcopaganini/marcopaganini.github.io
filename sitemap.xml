@@ -14,12 +14,10 @@
   
   <url>
     <loc>https://www.paganini.net/categories/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.paganini.net/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>
