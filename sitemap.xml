@@ -1,23 +1,76 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
-    <loc>https://www.paganini.net/resume/</loc>
-    <lastmod>2017-03-11T19:27:39-08:00</lastmod>
-  </url>
-  
-  <url>
+    <loc>https://www.paganini.net/tags/bash/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/cli/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/coding/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/filesystem/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/getfacl/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/life/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/linux/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/lottery/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/money/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://www.paganini.net/</loc>
-    <lastmod>2017-03-11T19:27:39-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.paganini.net/categories/</loc>
-  </url>
-  
-  <url>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/posix-acls/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/setfacl/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/shell/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/lottery/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/bash/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://www.paganini.net/tags/</loc>
+    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/git/</loc>
+    <lastmod>2024-06-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/git/</loc>
+    <lastmod>2024-06-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/resume/</loc>
+    <lastmod>2017-03-11T19:27:39-08:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/photos/</loc>
+    <lastmod>2017-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/archives/</loc>
+  </url><url>
+    <loc>https://www.paganini.net/categories/</loc>
+  </url><url>
+    <loc>https://www.paganini.net/search/</loc>
+  </url><url>
+    <loc>https://www.paganini.net/series/</loc>
   </url>
-  
 </urlset>

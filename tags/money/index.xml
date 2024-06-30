@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Money on paganini.net</title>
+    <link>https://www.paganini.net/tags/money/</link>
+    <description>Recent content in Money on paganini.net</description>
+    <generator>Hugo -- 0.127.0</generator>
+    <language>en</language>
+    <copyright>paganini.net</copyright>
+    <lastBuildDate>Sat, 29 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.paganini.net/tags/money/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>So you won the lottery, now what?</title>
+      <link>https://www.paganini.net/posts/lottery/</link>
+      <pubDate>Sat, 29 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/posts/lottery/</guid>
+      <description>Winning the lottery seems like a great idea, but can end up being detrimental and sometimes just dangerous. This is an article extracted from /u/BlakeClass on an interesting thread about what to do if you won the lottery.
+</description>
+    </item>
+  </channel>
+</rss>

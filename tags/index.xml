@@ -1,14 +1,97 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on paganini.net</title>
     <link>https://www.paganini.net/tags/</link>
     <description>Recent content in Tags on paganini.net</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="https://www.paganini.net/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <generator>Hugo -- 0.127.0</generator>
+    <language>en</language>
+    <copyright>paganini.net</copyright>
+    <lastBuildDate>Sat, 29 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.paganini.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash</title>
+      <link>https://www.paganini.net/tags/bash/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/bash/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cli</title>
+      <link>https://www.paganini.net/tags/cli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/cli/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Coding</title>
+      <link>https://www.paganini.net/tags/coding/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/coding/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Filesystem</title>
+      <link>https://www.paganini.net/tags/filesystem/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/filesystem/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Getfacl</title>
+      <link>https://www.paganini.net/tags/getfacl/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/getfacl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Life</title>
+      <link>https://www.paganini.net/tags/life/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/life/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://www.paganini.net/tags/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lottery</title>
+      <link>https://www.paganini.net/tags/lottery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/lottery/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Money</title>
+      <link>https://www.paganini.net/tags/money/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/money/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Setfacl</title>
+      <link>https://www.paganini.net/tags/setfacl/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/setfacl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shell</title>
+      <link>https://www.paganini.net/tags/shell/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/shell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Git</title>
+      <link>https://www.paganini.net/tags/git/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/git/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
