@@ -10,6 +10,55 @@
     <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.paganini.net/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Comcast</title>
+      <link>https://www.paganini.net/tags/comcast/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/comcast/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dhcp</title>
+      <link>https://www.paganini.net/tags/dhcp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/dhcp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dns</title>
+      <link>https://www.paganini.net/tags/dns/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/dns/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dual-Stack</title>
+      <link>https://www.paganini.net/tags/dual-stack/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/dual-stack/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ethernet</title>
+      <link>https://www.paganini.net/tags/ethernet/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/ethernet/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ipv4</title>
+      <link>https://www.paganini.net/tags/ipv4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/ipv4/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ipv6</title>
+      <link>https://www.paganini.net/tags/ipv6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/ipv6/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Kvm</title>
       <link>https://www.paganini.net/tags/kvm/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -24,10 +73,24 @@
       <description></description>
     </item>
     <item>
+      <title>Networking</title>
+      <link>https://www.paganini.net/tags/networking/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/networking/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Qemu</title>
       <link>https://www.paganini.net/tags/qemu/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/tags/qemu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Router</title>
+      <link>https://www.paganini.net/tags/router/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/router/</guid>
       <description></description>
     </item>
     <item>
@@ -49,6 +112,13 @@
       <link>https://www.paganini.net/tags/windows/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/tags/windows/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Xfinity</title>
+      <link>https://www.paganini.net/tags/xfinity/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/xfinity/</guid>
       <description></description>
     </item>
     <item>
