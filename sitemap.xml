@@ -2,6 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.paganini.net/tags/kvm/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/linux/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/qemu/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/posts/kvm/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/virtualization/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/vm/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.paganini.net/tags/windows/</loc>
+    <lastmod>2024-07-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://www.paganini.net/tags/bash/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
@@ -20,22 +50,13 @@
     <loc>https://www.paganini.net/tags/life/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.paganini.net/tags/linux/</loc>
-    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.paganini.net/tags/lottery/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.paganini.net/tags/money/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.paganini.net/</loc>
-    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.paganini.net/posts/posix-acls/</loc>
-    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.paganini.net/posts/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.paganini.net/tags/setfacl/</loc>
@@ -48,9 +69,6 @@
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.paganini.net/posts/bash/</loc>
-    <lastmod>2024-06-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.paganini.net/tags/</loc>
     <lastmod>2024-06-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.paganini.net/tags/git/</loc>

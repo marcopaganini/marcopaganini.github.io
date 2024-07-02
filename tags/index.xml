@@ -7,8 +7,50 @@
     <generator>Hugo -- 0.127.0</generator>
     <language>en</language>
     <copyright>paganini.net</copyright>
-    <lastBuildDate>Sat, 29 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://www.paganini.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kvm</title>
+      <link>https://www.paganini.net/tags/kvm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/kvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://www.paganini.net/tags/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Qemu</title>
+      <link>https://www.paganini.net/tags/qemu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/qemu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Virtualization</title>
+      <link>https://www.paganini.net/tags/virtualization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/virtualization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vm</title>
+      <link>https://www.paganini.net/tags/vm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/vm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows</title>
+      <link>https://www.paganini.net/tags/windows/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/tags/windows/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Bash</title>
       <link>https://www.paganini.net/tags/bash/</link>
@@ -49,13 +91,6 @@
       <link>https://www.paganini.net/tags/life/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/tags/life/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Linux</title>
-      <link>https://www.paganini.net/tags/linux/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.paganini.net/tags/linux/</guid>
       <description></description>
     </item>
     <item>

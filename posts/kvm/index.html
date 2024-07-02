@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>QEMU&#43;KVM notes | paganini.net</title>
+<meta name="keywords" content="qemu, kvm, vm, virtualization, linux, windows">
+<meta name="description" content="These are my notes about installing and running QEMU&#43;KVM on Debian systems.
+">
+<meta name="author" content="Marco Paganini">
+<link rel="canonical" href="https://www.paganini.net/posts/kvm/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.360611f796b9d00da9c84e601147db753a59975e0be3d8e55a1da51afa6574ce.css" integrity="sha256-NgYR95a50A2pyE5gEUfbdTpZl14L49jlWh2lGvpldM4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://www.paganini.net/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.paganini.net/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.paganini.net/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://www.paganini.net/apple-touch-icon.png">
+<link rel="mask-icon" href="https://www.paganini.net/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://www.paganini.net/posts/kvm/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+  
+
+<meta property="og:title" content="QEMU&#43;KVM notes" />
+<meta property="og:description" content="These are my notes about installing and running QEMU&#43;KVM on Debian systems.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.paganini.net/posts/kvm/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-07-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-07-01T00:00:00+00:00" /><meta property="og:site_name" content="Welcome to paganini.net" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="QEMU&#43;KVM notes"/>
+<meta name="twitter:description" content="These are my notes about installing and running QEMU&#43;KVM on Debian systems.
+"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://www.paganini.net/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "QEMU+KVM notes",
+      "item": "https://www.paganini.net/posts/kvm/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "QEMU+KVM notes",
+  "name": "QEMU\u002bKVM notes",
+  "description": "These are my notes about installing and running QEMU+KVM on Debian systems.\n",
+  "keywords": [
+    "qemu", "kvm", "vm", "virtualization", "linux", "windows"
+  ],
+  "articleBody": "QEMU+KVM notes Assumptions We’re running in a debian system. We’re running in an AMD processor (not much to change if using Intel). We’re using the default directories for VMs (/usr/lib/libvirt//files...) Debian pre-requisites Make sure the CPU has virtualization capabilities:\ngrep -c '\\(vmx\\|svm\\)' /proc/cpuinfo Output should be \u003e 0.\nInstall the required qemu and libvirt packages:\nsudo apt-get install qemu-kvm qemu-system qemu-utils \\ libvirt-clients libvirt-daemon-system virtinst Make sure libvirtd is running:\nsudo systemctl status libvirtd.service Make sure the kvm and kvm_intel or kvm_amd modules are loaded.\nsudo virsh net-list --all Name State Autostart Persistent ---------------------------------------------- default inactive no yes Start the network and configure it to start on boot:\nsudo virsh net-start default sudo virsh net-autostart default VM Creation example (debian bookworm) The example below may get outdated rapidly, as OS versions change all the time. Please adjust the download version and image, as well as the --os-variant and --os-type to match.\nLIBVIRT_DIR=\"/var/lib/libvirt\" # Create directories for disk image and ISO mkdir -p \"${LIBVIRT_DIR?}\"/{images,iso}/debian # Fetch ISO file from debian curl -L \\ https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso \\ \u003e\"${LIBVIRT_DIR?}\"/iso/debian/debian.iso # Create a VM called \"debian\" and open the console. sudo virt-install \\ --name debian \\ --os-variant debianbookworm \\ --ram 2048 \\ --cpu host \\ --disk \"${LIBVIRT_DIR?}\"/images/debian/debian.qcow2,device=disk,bus=virtio,size=10,format=qcow2 \\ --graphics spice \\ --hvm \\ --cdrom \"${LIBVIRT_DIR?}\"/iso/debian/debian.iso \\ --boot cdrom,hd Note: If you get an apparmor error, this could be explained by libvirt bug #665531. To work around this bug, edit /etc/libvirt/qemu.conf and add security_driver=none to the file.\nThis will open a graphical console to your newly created VM so you can finish the OS installation. If the machine in question does not have graphical capabilities, add the --noautoconsole command-line option and open virt-viewer from a remote machine.\nBasic VM commands virsh list --all - Show all VMs (running and stopped). virsh start vm - Start the VM. virsh shutdown vm - Shutdown the VM. virsh destroy vm - Forceful shutdown. virsh undefine vm [--nvram] [--remove-all-storage] - Undefine (deletes) the VM. virsh console vm - Serial console into the VM. virsh autostart --domain domain - Enable autostart for the domain (VM). virsh domiflist domain - List the network interfaces for the domain. Pool management virsh pool-list - List pools (a pool is a directory, mountpoint, device, etc and contains volumes). virsh pool-destroy - Destroy (stop) the pool. virsh pool-delete - Delete the ALL pool data (definition remains available). virsh pool-undefine - Delete the pool from the list of pools (definition). Volume management virsh vol-list --pool pool_name - List volumes. virsh vol-delete --pool pool_name - Delete a volume. Check the VM manager using VNC or virt-viewer sudo virsh vncdisplay vmname :0 vncviewer localhost:0 or\nvirt-viewer vmname It’s also possible to use virt-manager and open a graphical console directly.\nCPU notes By default, qemu will use the qemu64/qemu32 virtualized CPUs which perform poorly and should be avoided. On the command-line, use --cpu host to pass use cpu-passthrough. This should improve guest performance but will make migrations harder. It’s also possible to use a named cpu model (E.g. --cpu Opteron_G5 for AMD hosts and --cpu Skylake-Server for intel.\nFor virsh (virsh edit domain), it’s possible to use the following snippet to enable cpu-passthrough:\n",
+  "wordCount" : "1769",
+  "inLanguage": "en",
+  "datePublished": "2024-07-01T00:00:00Z",
+  "dateModified": "2024-07-01T00:00:00Z",
+  "author":[{
+    "@type": "Person",
+    "name": "Marco Paganini"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.paganini.net/posts/kvm/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "paganini.net",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.paganini.net/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://www.paganini.net/" accesskey="h" title="paganini.net (Alt + H)">paganini.net</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://www.paganini.net/posts/resume" title="📄 Resume">
+                    <span>📄 Resume</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.paganini.net/posts/photos" title="📷 Photos">
+                    <span>📷 Photos</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.paganini.net/archives" title="🗃️ Archive">
+                    <span>🗃️ Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.paganini.net/tags/" title="🏷️ Tags">
+                    <span>🏷️ Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.paganini.net/search/" title="🔍 Search">
+                    <span>🔍 Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://www.paganini.net/">Home</a>&nbsp;»&nbsp;<a href="https://www.paganini.net/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      QEMU&#43;KVM notes
+    </h1>
+    <div class="post-description">
+      These are my notes about installing and running QEMU&#43;KVM on Debian systems.
+
+    </div>
+    <div class="post-meta"><span title='2024-07-01 00:00:00 +0000 UTC'>July 1, 2024</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Marco Paganini
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#qemukvm-notes" aria-label="QEMU&#43;KVM notes">QEMU+KVM notes</a><ul>
+                        
+                <li>
+                    <a href="#assumptions" aria-label="Assumptions">Assumptions</a></li>
+                <li>
+                    <a href="#debian-pre-requisites" aria-label="Debian pre-requisites">Debian pre-requisites</a></li>
+                <li>
+                    <a href="#vm-creation-example-debian-bookworm" aria-label="VM Creation example (debian bookworm)">VM Creation example (debian bookworm)</a></li>
+                <li>
+                    <a href="#basic-vm-commands" aria-label="Basic VM commands">Basic VM commands</a></li>
+                <li>
+                    <a href="#pool-management" aria-label="Pool management">Pool management</a></li>
+                <li>
+                    <a href="#volume-management" aria-label="Volume management">Volume management</a></li>
+                <li>
+                    <a href="#check-the-vm-manager-using-vnc-or-virt-viewer" aria-label="Check the VM manager using VNC or virt-viewer">Check the VM manager using VNC or virt-viewer</a></li>
+                <li>
+                    <a href="#cpu-notes" aria-label="CPU notes">CPU notes</a></li>
+                <li>
+                    <a href="#pool-management-1" aria-label="Pool management">Pool management</a></li>
+                <li>
+                    <a href="#allowing-regular-user-access" aria-label="Allowing regular user access">Allowing regular user access</a></li>
+                <li>
+                    <a href="#missing-2560x1440-on-linux" aria-label="Missing 2560x1440 on Linux">Missing 2560x1440 on Linux</a></li>
+                <li>
+                    <a href="#converting-windows-devices-to-virtio" aria-label="Converting windows devices to VirtIO">Converting windows devices to VirtIO</a></li>
+                <li>
+                    <a href="#clipboard-sharing" aria-label="Clipboard sharing">Clipboard sharing</a></li>
+                <li>
+                    <a href="#folder-sharing" aria-label="Folder sharing">Folder sharing</a></li>
+                <li>
+                    <a href="#bridged-networking" aria-label="Bridged networking">Bridged networking</a></li>
+                <li>
+                    <a href="#converting-vdi-images-to-qcow2" aria-label="Converting VDI images to qcow2">Converting VDI images to qcow2</a></li>
+                <li>
+                    <a href="#shrinking-qcow2-images" aria-label="Shrinking qcow2 images">Shrinking qcow2 images</a></li>
+                <li>
+                    <a href="#windows-10-optimizations" aria-label="Windows 10 optimizations">Windows 10 optimizations</a></li>
+                <li>
+                    <a href="#windows-10-only-uses-2-cpus" aria-label="Windows 10 only uses 2 CPUs.">Windows 10 only uses 2 CPUs.</a></li>
+                <li>
+                    <a href="#virt-manager-fullscreen-keyboard-grabbing" aria-label="virt-manager fullscreen keyboard grabbing">virt-manager fullscreen keyboard grabbing</a></li>
+                <li>
+                    <a href="#further-reading-and-sources" aria-label="Further reading and sources">Further reading and sources</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="qemukvm-notes">QEMU+KVM notes<a hidden class="anchor" aria-hidden="true" href="#qemukvm-notes">#</a></h1>
+<h2 id="assumptions">Assumptions<a hidden class="anchor" aria-hidden="true" href="#assumptions">#</a></h2>
+<ul>
+<li>We&rsquo;re running in a debian system.</li>
+<li>We&rsquo;re running in an AMD processor (not much to change if using Intel).</li>
+<li>We&rsquo;re using the default directories for VMs (<code>/usr/lib/libvirt/&lt;IMAGE&gt;/files...</code>)</li>
+</ul>
+<h2 id="debian-pre-requisites">Debian pre-requisites<a hidden class="anchor" aria-hidden="true" href="#debian-pre-requisites">#</a></h2>
+<p>Make sure the CPU has virtualization capabilities:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -c <span style="color:#e6db74">&#39;\(vmx\|svm\)&#39;</span> /proc/cpuinfo
+</span></span></code></pre></div><p>Output should be &gt; 0.</p>
+<p>Install the required qemu and libvirt packages:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get install qemu-kvm qemu-system qemu-utils <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    libvirt-clients libvirt-daemon-system virtinst
+</span></span></code></pre></div><p>Make sure libvirtd is running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl status libvirtd.service
+</span></span></code></pre></div><p>Make sure the <code>kvm</code> and <code>kvm_intel</code> or <code>kvm_amd</code> modules are loaded.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh net-list --all
+</span></span><span style="display:flex;"><span> Name      State      Autostart   Persistent
+</span></span><span style="display:flex;"><span> ----------------------------------------------
+</span></span><span style="display:flex;"><span>  default   inactive   no          yes
+</span></span></code></pre></div><p>Start the network and configure it to start on boot:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh net-start default
+</span></span><span style="display:flex;"><span>sudo virsh net-autostart default
+</span></span></code></pre></div><h2 id="vm-creation-example-debian-bookworm">VM Creation example (debian bookworm)<a hidden class="anchor" aria-hidden="true" href="#vm-creation-example-debian-bookworm">#</a></h2>
+<p>The example below may get outdated rapidly, as OS versions change all the time.
+Please adjust the download version and image, as well as the <code>--os-variant</code> and
+<code>--os-type</code> to match.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LIBVIRT_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/libvirt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create directories for disk image and ISO</span>
+</span></span><span style="display:flex;"><span>mkdir -p <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LIBVIRT_DIR?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/<span style="color:#f92672">{</span>images,iso<span style="color:#f92672">}</span>/debian
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fetch ISO file from debian</span>
+</span></span><span style="display:flex;"><span>curl -L <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  &gt;<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LIBVIRT_DIR?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/iso/debian/debian.iso
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a VM called &#34;debian&#34; and open the console.</span>
+</span></span><span style="display:flex;"><span>sudo virt-install <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --name debian <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --os-variant debianbookworm <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --ram <span style="color:#ae81ff">2048</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --cpu host <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --disk <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LIBVIRT_DIR?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/images/debian/debian.qcow2,device<span style="color:#f92672">=</span>disk,bus<span style="color:#f92672">=</span>virtio,size<span style="color:#f92672">=</span>10,format<span style="color:#f92672">=</span>qcow2 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --graphics spice <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --hvm <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --cdrom <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LIBVIRT_DIR?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>/iso/debian/debian.iso <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --boot cdrom,hd
+</span></span></code></pre></div><p>Note: If you get an apparmor error, this could be explained by libvirt bug <a href="https://bugs.launchpad.net/ubuntu/+source/libvirt/+bug/665531">#665531</a>. To work around this bug, edit <code>/etc/libvirt/qemu.conf</code> and add
+<code>security_driver=none</code> to the file.</p>
+<p>This will open a graphical console to your newly created VM so you can finish
+the OS installation.  If the machine in question does not have graphical
+capabilities, add the <code>--noautoconsole</code> command-line option and open
+<code>virt-viewer</code> from a remote machine.</p>
+<h2 id="basic-vm-commands">Basic VM commands<a hidden class="anchor" aria-hidden="true" href="#basic-vm-commands">#</a></h2>
+<ul>
+<li><code>virsh list --all</code> - Show all VMs (running and stopped).</li>
+<li><code>virsh start vm</code> - Start the VM.</li>
+<li><code>virsh shutdown vm</code> - Shutdown the VM.</li>
+<li><code>virsh destroy vm</code> - Forceful shutdown.</li>
+<li><code>virsh undefine vm [--nvram] [--remove-all-storage]</code> - Undefine (deletes) the VM.</li>
+<li><code>virsh console vm</code> - Serial console into the VM.</li>
+<li><code>virsh autostart --domain domain</code> - Enable autostart for the domain (VM).</li>
+<li><code>virsh domiflist domain</code> - List the network interfaces for the domain.</li>
+</ul>
+<h2 id="pool-management">Pool management<a hidden class="anchor" aria-hidden="true" href="#pool-management">#</a></h2>
+<ul>
+<li><code>virsh pool-list</code> - List pools (a pool is a directory, mountpoint, device, etc and contains volumes).</li>
+<li><code>virsh pool-destroy</code> - Destroy (stop) the pool.</li>
+<li><code>virsh pool-delete</code> - Delete the ALL pool data (definition remains available).</li>
+<li><code>virsh pool-undefine</code> - Delete the pool from the list of pools (definition).</li>
+</ul>
+<h2 id="volume-management">Volume management<a hidden class="anchor" aria-hidden="true" href="#volume-management">#</a></h2>
+<ul>
+<li><code>virsh vol-list --pool pool_name</code> - List volumes.</li>
+<li><code>virsh vol-delete --pool pool_name</code> - Delete a volume.</li>
+</ul>
+<h2 id="check-the-vm-manager-using-vnc-or-virt-viewer">Check the VM manager using VNC or <code>virt-viewer</code><a hidden class="anchor" aria-hidden="true" href="#check-the-vm-manager-using-vnc-or-virt-viewer">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo virsh vncdisplay vmname
+</span></span><span style="display:flex;"><span>:0
+</span></span><span style="display:flex;"><span>vncviewer localhost:0
+</span></span></code></pre></div><p>or</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virt-viewer vmname
+</span></span></code></pre></div><p>It&rsquo;s also possible to use <code>virt-manager</code>  and open a graphical console directly.</p>
+<h2 id="cpu-notes">CPU notes<a hidden class="anchor" aria-hidden="true" href="#cpu-notes">#</a></h2>
+<p>By default, qemu will use the qemu64/qemu32 virtualized CPUs which perform poorly and should be avoided.
+On the command-line, use <code>--cpu host</code> to pass use cpu-passthrough. This should improve guest performance
+but will make migrations harder. It&rsquo;s also possible to use a named cpu model (E.g. <code>--cpu Opteron_G5</code> for
+AMD hosts and <code>--cpu Skylake-Server</code> for intel.</p>
+<p>For virsh (<code>virsh edit domain</code>), it&rsquo;s possible to use the following snippet to enable cpu-passthrough:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;cpu mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;host-passthrough&#39;</span> check<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;partial&#39;</span>/&gt;
+</span></span></code></pre></div><p>Don&rsquo;t forget to limit the number of CPUs in the guest with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;vcpu placement<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;static&#39;</span>&gt;2&lt;/vcpu&gt;
+</span></span></code></pre></div><p>It&rsquo;s also possible to edit these directly in <code>virt-manager</code>, but I didn&rsquo;t find
+a way to enable <code>host-passthrough</code>, only <code>host-model</code>, which is safer for
+migrations but slightly less performant. When specifying the CPU mode, pay
+attention to the <code>check='partial'</code> flag. Without it, virt-manager could set it
+to full which will cause failures as the guest does not have certain features
+of the host enabled (like CPU virtualization).</p>
+<p>More info:
+<a href="https://www.berrange.com/posts/2018/06/29/cpu-model-configuration-for-qemu-kvm-on-x86-hosts/">https://www.berrange.com/posts/2018/06/29/cpu-model-configuration-for-qemu-kvm-on-x86-hosts/</a></p>
+<h2 id="pool-management-1">Pool management<a hidden class="anchor" aria-hidden="true" href="#pool-management-1">#</a></h2>
+<p>A pool is a quantity of storage put aside for &ldquo;volumes&rdquo;, which are then used by
+VMs. Pools can be Network mountpoints, directories, filesystems, etc.</p>
+<p>Viewing pools:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virsh list-pools --all
+</span></span></code></pre></div><p>To completely delete a pool:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>virsh pool-destroy poolname
+</span></span><span style="display:flex;"><span>virsh pool-delete poolname
+</span></span><span style="display:flex;"><span>virsh pool-undefine poolname
+</span></span></code></pre></div><ul>
+<li>
+<p><code>destroy</code> removes the pool from libvirt&rsquo;s control, but does not remove the
+data. The data can be later recovered with <code>pool-create</code>.</p>
+</li>
+<li>
+<p><code>delete</code> deletes the resources (volumes) used by the pool. This operation is
+non-recoverable. The pool object will still exist after this command, ready
+for the creation of new volumes.</p>
+</li>
+<li>
+<p><code>undefine</code> completely removes the configuration for an inactive pool.</p>
+</li>
+</ul>
+<h2 id="allowing-regular-user-access">Allowing regular user access<a hidden class="anchor" aria-hidden="true" href="#allowing-regular-user-access">#</a></h2>
+<p>If you prefer regular users to manage the VMs, add them to the <code>libvirt</code> and
+<code>libvirt-qemu</code> unix groups:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo adduser paganini libvirt
+</span></span><span style="display:flex;"><span>sudo adduser paganini libvirt-qemu
+</span></span></code></pre></div><p>Also set the <code>LIBVIRT_DEFAULT_URI</code> environment variable to point to the global scope:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export LIBVIRT_DEFAULT_URI<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;qemu:///system&#34;</span>
+</span></span></code></pre></div><p>or use <code>--connect qemu:///system</code> on the <code>virsh</code> command-line.</p>
+<h2 id="missing-2560x1440-on-linux">Missing 2560x1440 on Linux<a hidden class="anchor" aria-hidden="true" href="#missing-2560x1440-on-linux">#</a></h2>
+<p>For some reason the native mode of 2560x1440 did not show on xrandr using the QXL driver.
+The solution was to add it manually.</p>
+<p>First, calculate the VESA modeline:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cvt <span style="color:#ae81ff">2560</span> <span style="color:#ae81ff">1440</span>
+</span></span><span style="display:flex;"><span>Modeline <span style="color:#e6db74">&#34;2560x1440_60.00&#34;</span>  312.25  <span style="color:#ae81ff">2560</span> <span style="color:#ae81ff">2752</span> <span style="color:#ae81ff">3024</span> <span style="color:#ae81ff">3488</span>  <span style="color:#ae81ff">1440</span> <span style="color:#ae81ff">1443</span> <span style="color:#ae81ff">1448</span> <span style="color:#ae81ff">1493</span> -hsync +vsync
+</span></span></code></pre></div><p>Then create a xorg.conf snippet in <code>/usr/share/x11/xorg.conf/10-monitor.conf</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>section <span style="color:#e6db74">&#34;Monitor&#34;</span>
+</span></span><span style="display:flex;"><span>    Identifier <span style="color:#e6db74">&#34;Virtual-0 &#34;</span>
+</span></span><span style="display:flex;"><span>    Modeline <span style="color:#e6db74">&#34;2560x1440_60.00&#34;</span>  312.25  <span style="color:#ae81ff">2560</span> <span style="color:#ae81ff">2752</span> <span style="color:#ae81ff">3024</span> <span style="color:#ae81ff">3488</span>  <span style="color:#ae81ff">1440</span> <span style="color:#ae81ff">1443</span> <span style="color:#ae81ff">1448</span> <span style="color:#ae81ff">1493</span> -hsync +vsync
+</span></span><span style="display:flex;"><span>    Modeline <span style="color:#e6db74">&#34;3840x2160_60.00&#34;</span>  712.75  <span style="color:#ae81ff">3840</span> <span style="color:#ae81ff">4160</span> <span style="color:#ae81ff">4576</span> <span style="color:#ae81ff">5312</span>  <span style="color:#ae81ff">2160</span> <span style="color:#ae81ff">2163</span> <span style="color:#ae81ff">2168</span> <span style="color:#ae81ff">2237</span> -hsync +vsync
+</span></span><span style="display:flex;"><span>    Option <span style="color:#e6db74">&#34;PreferredMode&#34;</span> <span style="color:#e6db74">&#34;2560x1440_60.00&#34;</span>
+</span></span><span style="display:flex;"><span>EndSection
+</span></span></code></pre></div><p>Note: The snippet above worked until an upgrade. It appears that newer versions
+of X use &ldquo;Virtual-1&rdquo; instead of &ldquo;Virtual-0&rdquo; (there&rsquo;s also the issue of the
+space). Another possibility (untested) is to force the name of the monitor on
+the default screen:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Section <span style="color:#e6db74">&#34;Screen&#34;</span>
+</span></span><span style="display:flex;"><span>    Identifier <span style="color:#e6db74">&#34;Default screen&#34;</span>
+</span></span><span style="display:flex;"><span>    Monitor <span style="color:#e6db74">&#34;default-monitor&#34;</span>
+</span></span><span style="display:flex;"><span>EndSection
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>section <span style="color:#e6db74">&#34;Monitor&#34;</span>
+</span></span><span style="display:flex;"><span>    Identifier <span style="color:#e6db74">&#34;default-monitor&#34;</span>
+</span></span><span style="display:flex;"><span>    Modeline <span style="color:#e6db74">&#34;2560x1440_60.00&#34;</span>  312.25  <span style="color:#ae81ff">2560</span> <span style="color:#ae81ff">2752</span> <span style="color:#ae81ff">3024</span> <span style="color:#ae81ff">3488</span>  <span style="color:#ae81ff">1440</span> <span style="color:#ae81ff">1443</span> <span style="color:#ae81ff">1448</span> <span style="color:#ae81ff">1493</span> -hsync +vsync
+</span></span><span style="display:flex;"><span>    Modeline <span style="color:#e6db74">&#34;3840x2160_60.00&#34;</span>  712.75  <span style="color:#ae81ff">3840</span> <span style="color:#ae81ff">4160</span> <span style="color:#ae81ff">4576</span> <span style="color:#ae81ff">5312</span>  <span style="color:#ae81ff">2160</span> <span style="color:#ae81ff">2163</span> <span style="color:#ae81ff">2168</span> <span style="color:#ae81ff">2237</span> -hsync +vsync
+</span></span><span style="display:flex;"><span>    Option <span style="color:#e6db74">&#34;PreferredMode&#34;</span> <span style="color:#e6db74">&#34;2560x1440_60.00&#34;</span>
+</span></span><span style="display:flex;"><span>EndSection
+</span></span></code></pre></div><p>Further reading: <a href="https://stafwag.github.io/blog/blog/2018/04/22/high-screen-resolution-on-a-kvm-virtual-machine-with-qxl/">https://stafwag.github.io/blog/blog/2018/04/22/high-screen-resolution-on-a-kvm-virtual-machine-with-qxl/</a></p>
+<h2 id="converting-windows-devices-to-virtio">Converting windows devices to VirtIO<a hidden class="anchor" aria-hidden="true" href="#converting-windows-devices-to-virtio">#</a></h2>
+<p>The default SATA devices work well, but (supposedly) have worse performance
+than the virtio devices. Those devices can be installed at boot time (by
+passing the device path to Windows), or after installation with the steps
+below:</p>
+<p>Source: <a href="https://superuser.com/questions/1057959/windows-10-in-kvm-change-boot-disk-to-virtio/1095112">https://superuser.com/questions/1057959/windows-10-in-kvm-change-boot-disk-to-virtio/1095112</a></p>
+<ul>
+<li>Add both windows 10 DVD/CD ISO and virtio driver ISO to VM.</li>
+<li>The latest driver ISO can be pulled out of the RPMs found at
+<a href="https://fedorapeople.org/groups/virt/virtio-win/repo/latest/">https://fedorapeople.org/groups/virt/virtio-win/repo/latest/</a></li>
+<li>Boot off windows 10 DVD/CD and get into a command prompt from repair mode option.
+Load the driver via the CLI: <code>drvload d:\viostor\w10\amd64\viostor.inf</code>
+<ul>
+<li>In my case d: was where the virtio install ISO got assigned.</li>
+<li>After loading the driver e: was where the windows install became mounted.</li>
+</ul>
+</li>
+<li>Use the DISM command to inject the storage controller driver
+<ul>
+<li>E.g. <code>dism /image:f:\ /add-driver /driver:e:\viostor\w10\amd64\viostor.inf</code></li>
+</ul>
+</li>
+</ul>
+<p>As above, change drive letter assignments according to your own environment.
+Avoids needing to fiddle with making special windows boot CDs/Images and
+&lsquo;patches&rsquo; the actual windows install image on the fly.</p>
+<h2 id="clipboard-sharing">Clipboard sharing<a hidden class="anchor" aria-hidden="true" href="#clipboard-sharing">#</a></h2>
+<ul>
+<li>Linux guests: <code>sudo apt-get install spice-vdagent</code></li>
+<li>Windows guests: install <a href="https://www.spice-space.org/download/binaries/spice-guest-tools/">https://www.spice-space.org/download/binaries/spice-guest-tools/</a></li>
+</ul>
+<p>Note that display type must be set to Spice.</p>
+<h2 id="folder-sharing">Folder sharing<a hidden class="anchor" aria-hidden="true" href="#folder-sharing">#</a></h2>
+<ul>
+<li>Linux guests can use NFS and a shared filesystem (but this does not work for Windows guests).</li>
+<li>For Windows, that does not work and the alternative is to use SPICE:
+<ul>
+<li>In virt-manager in the details view click &ldquo;Add Hardware&rdquo; and select a &ldquo;Channel&rdquo; device.</li>
+<li>Set the new device name to org.spice-spave.webdav.0, leave other fields as they are.</li>
+<li>Start the guest machine and install <a href="https://www.spice-space.org/download/windows/spice-webdavd/">spice-webdav</a>
+on the guest. After installation make sure the &ldquo;Spice webdav proxy&rdquo; service is running
+(via services.msc).</li>
+<li>Run C:\Program File\SPICE webdavd\map-drive.bat to map the shared folder, which by
+default is <code>~/.Public</code>.</li>
+<li>Errors like &ldquo;System error 67 has occurred, the network name cannot be found&rdquo; mean the webdav proxy
+is not running.</li>
+<li>To change the shared folder, use virt-viewer instead of virt-manager and configure it under
+File-&gt;Preferences.</li>
+</ul>
+</li>
+</ul>
+<p>Source:
+<a href="https://www.guyrutenberg.com/2018/10/25/sharing-a-folder-a-windows-guest-under-virt-manager/">https://www.guyrutenberg.com/2018/10/25/sharing-a-folder-a-windows-guest-under-virt-manager/</a></p>
+<p>Another option is to mount a NFS share with Windows:
+<a href="https://graspingtech.com/mount-nfs-share-windows-10/">https://graspingtech.com/mount-nfs-share-windows-10/</a></p>
+<h2 id="bridged-networking">Bridged networking<a hidden class="anchor" aria-hidden="true" href="#bridged-networking">#</a></h2>
+<ul>
+<li>Default networking mode is NAT. In this case, QEMU created a 192.168.122/24 subnet and
+the required iptables on the host to route to that network.</li>
+<li>libvirt starts dnsmasq on each network to provide a range of DHCP addresses (subnetting?)</li>
+<li>Recommendation: Use a bridge
+<a href="https://jamielinux.com/docs/libvirt-networking-handbook/bridged-network.html">https://jamielinux.com/docs/libvirt-networking-handbook/bridged-network.html</a></li>
+</ul>
+<h2 id="converting-vdi-images-to-qcow2">Converting VDI images to qcow2<a hidden class="anchor" aria-hidden="true" href="#converting-vdi-images-to-qcow2">#</a></h2>
+<p>You can convert your virtualbox images to qcow2 and run them under KVM:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>qemu-img convert -f vdi -O qcow2 <span style="color:#f92672">[</span>VBOX-IMAGE.vdi<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>KVM-IMAGE.qcow2<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h2 id="shrinking-qcow2-images">Shrinking qcow2 images<a hidden class="anchor" aria-hidden="true" href="#shrinking-qcow2-images">#</a></h2>
+<ul>
+<li>Run <code>fstrim -av</code> on the guest.</li>
+<li>Shutdown the VM.</li>
+<li>Copy the qcow2 file to a backup (ex: foo-backup.qcow2)</li>
+<li>Convert the backup on top of the original:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>qemu-img convert -o cluster_size<span style="color:#f92672">=</span>2M -O qcow2 foo-backup.qcow2 foo.qcow2
+</span></span></code></pre></div><p>To use compression, add <code>-c</code> to the qemu-img command-line above. Note that compression does not
+write new data compressed(?) according to <a href="http://archive.vn/6sF4b">http://archive.vn/6sF4b</a></p>
+<h2 id="windows-10-optimizations">Windows 10 optimizations<a hidden class="anchor" aria-hidden="true" href="#windows-10-optimizations">#</a></h2>
+<p>Source:
+<a href="https://scribe.rip/@leduccc/improving-the-performance-of-a-windows-10-guest-on-qemu-a5b3f54d9cf5">https://scribe.rip/@leduccc/improving-the-performance-of-a-windows-10-guest-on-qemu-a5b3f54d9cf5</a></p>
+<p>Run <code>virsh editxml</code> and change/add the following items:</p>
+<ul>
+<li>Change the disk driver to be virtio.</li>
+<li>Turn off write caching.</li>
+<li>Set features.</li>
+<li>Pin the CPUs.</li>
+</ul>
+<pre tabindex="0"><code>&lt;domain type=&#39;kvm&#39; ...&gt;
+  ...
+  &lt;features&gt;
+  ...
+    &lt;iothreads&gt;1&lt;/iothreads&gt;
+    &lt;cputune&gt;
+      &lt;vcpupin vcpu=&#39;0&#39; cpuset=&#39;1&#39;/&gt;
+      &lt;vcpupin vcpu=&#39;1&#39; cpuset=&#39;5&#39;/&gt;
+      &lt;vcpupin vcpu=&#39;2&#39; cpuset=&#39;2&#39;/&gt;
+      &lt;vcpupin vcpu=&#39;3&#39; cpuset=&#39;6&#39;/&gt;
+      &lt;vcpupin vcpu=&#39;4&#39; cpuset=&#39;3&#39;/&gt;
+      &lt;vcpupin vcpu=&#39;5&#39; cpuset=&#39;7&#39;/&gt;
+      &lt;emulatorpin cpuset=&#39;0,4&#39;/&gt;
+      &lt;iothreadpin iothread=&#39;1&#39; cpuset=&#39;0,4&#39;/&gt;
+    &lt;/cputune&gt;
+
+    &lt;hyperv mode=&#39;custom&#39;&gt;
+      ...
+      &lt;relaxed state=&#39;on&#39;/&gt;
+      &lt;vapic state=&#39;on&#39;/&gt;
+      &lt;spinlocks state=&#39;on&#39; retries=&#39;8191&#39;/&gt;
+      &lt;vpindex state=&#39;on&#39;/&gt;
+      &lt;synic state=&#39;on&#39;/&gt;
+      &lt;stimer state=&#39;on&#39;&gt;
+        &lt;direct state=&#39;on&#39;/&gt;
+      &lt;/stimer&gt;
+      &lt;reset state=&#39;on&#39;/&gt;
+      &lt;frequencies state=&#39;on&#39;/&gt;
+      &lt;reenlightenment state=&#39;on&#39;/&gt;
+      &lt;tlbflush state=&#39;on&#39;/&gt;
+      &lt;ipi state=&#39;on&#39;/&gt;
+    &lt;/hyperv&gt;
+  &lt;/features&gt;
+
+  &lt;cpu mode=&#39;host-passthrough&#39; check=&#39;none&#39; migratable=&#39;on&#39;/&gt;
+  &lt;clock offset=&#39;localtime&#39;&gt;
+    &lt;timer name=&#39;rtc&#39; present=&#39;no&#39; tickpolicy=&#39;catchup&#39;/&gt;
+    &lt;timer name=&#39;pit&#39; present=&#39;no&#39; tickpolicy=&#39;delay&#39;/&gt;
+    &lt;timer name=&#39;hpet&#39; present=&#39;no&#39;/&gt;
+    &lt;timer name=&#39;kvmclock&#39; present=&#39;no&#39;/&gt;
+    &lt;timer name=&#39;hypervclock&#39; present=&#39;yes&#39;/&gt;
+  &lt;/clock&gt;
+
+  &lt;devices&gt;
+    ...
+    &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39; cache=&#39;none&#39; io=&#39;threads&#39; discard=&#39;unmap&#39; iothread=&#39;1&#39; queues=&#39;6&#39;/&gt;
+      ...
+    &lt;/disk&gt;
+  &lt;/devices&gt;
+</code></pre><h2 id="windows-10-only-uses-2-cpus">Windows 10 only uses 2 CPUs.<a hidden class="anchor" aria-hidden="true" href="#windows-10-only-uses-2-cpus">#</a></h2>
+<p>From: <a href="http://www.openwebit.com/c/how-to-run-windows-vm-on-more-than-2-cores-under-kvm/">http://www.openwebit.com/c/how-to-run-windows-vm-on-more-than-2-cores-under-kvm/</a></p>
+<p>Windows guests do not recognize all of the available cores under KVM and will
+usually detect only 2 cores. This happens since KVM exposes the available
+virtual CPU cores as physical CPUs (sockets). So, if the physical host running
+KVM has 2 CPUs with 4 cores each (a total of 8 cores), and the guest is
+configured for 8 CPUs, Windows will see 8 physical CPUs and will run only on 2,
+due to the hard coded limits in some of the editions of Windows Server.</p>
+<p>To make Windows use all available cores, we need to configure the guest to
+expose the CPUs as cores and not as physical CPUs (sockets):</p>
+<p>In virt-manager:</p>
+<p>Open the guest configuration screen:</p>
+<ul>
+<li>Select Processor options tab</li>
+<li>Expand the “Topology” setting</li>
+<li>Set the sockets to 2</li>
+<li>Set the cores to 4 (for the guest to have a total of 8 cores) or 3 (for the
+guest to have a total of 6 cores).</li>
+<li>You can also expand the “Configration” settings and click on “copy host CPU
+configuration” to make the guest fully use all of the physical host’s CPU
+capabilities.</li>
+</ul>
+<p>Note: This worked with 6 host CPU cores (2 sockets, 3 cores)</p>
+<h2 id="virt-manager-fullscreen-keyboard-grabbing">virt-manager fullscreen keyboard grabbing<a hidden class="anchor" aria-hidden="true" href="#virt-manager-fullscreen-keyboard-grabbing">#</a></h2>
+<ul>
+<li>Use Ctrl+Alt to release the keyboard on fullscreen mode.</li>
+</ul>
+<h2 id="further-reading-and-sources">Further reading and sources<a hidden class="anchor" aria-hidden="true" href="#further-reading-and-sources">#</a></h2>
+<ul>
+<li><a href="https://www.linuxtechi.com/install-configure-kvm-debian-10-buster/">https://www.linuxtechi.com/install-configure-kvm-debian-10-buster/</a></li>
+<li><a href="https://linuxhint.com/install_kvm_debian_10/">https://linuxhint.com/install_kvm_debian_10/</a></li>
+<li>A discussion of display devices in qemu:
+<ul>
+<li><a href="https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/">https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/</a></li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://www.paganini.net/tags/qemu/">Qemu</a></li>
+      <li><a href="https://www.paganini.net/tags/kvm/">Kvm</a></li>
+      <li><a href="https://www.paganini.net/tags/vm/">Vm</a></li>
+      <li><a href="https://www.paganini.net/tags/virtualization/">Virtualization</a></li>
+      <li><a href="https://www.paganini.net/tags/linux/">Linux</a></li>
+      <li><a href="https://www.paganini.net/tags/windows/">Windows</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://www.paganini.net/posts/posix-acls/">
+    <span class="title">Next »</span>
+    <br>
+    <span>POSIX ACLs by Example</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on x"
+            href="https://x.com/intent/tweet/?text=QEMU%2bKVM%20notes&amp;url=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f&amp;hashtags=qemu%2ckvm%2cvm%2cvirtualization%2clinux%2cwindows">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f&amp;title=QEMU%2bKVM%20notes&amp;summary=QEMU%2bKVM%20notes&amp;source=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f&title=QEMU%2bKVM%20notes">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on whatsapp"
+            href="https://api.whatsapp.com/send?text=QEMU%2bKVM%20notes%20-%20https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on telegram"
+            href="https://telegram.me/share/url?text=QEMU%2bKVM%20notes&amp;url=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share QEMU&#43;KVM notes on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=QEMU%2bKVM%20notes&u=https%3a%2f%2fwww.paganini.net%2fposts%2fkvm%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>© paganini.net</span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

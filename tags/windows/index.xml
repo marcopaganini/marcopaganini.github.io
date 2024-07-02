@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Windows on paganini.net</title>
+    <link>https://www.paganini.net/tags/windows/</link>
+    <description>Recent content in Windows on paganini.net</description>
+    <generator>Hugo -- 0.127.0</generator>
+    <language>en</language>
+    <copyright>paganini.net</copyright>
+    <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.paganini.net/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>QEMU&#43;KVM notes</title>
+      <link>https://www.paganini.net/posts/kvm/</link>
+      <pubDate>Mon, 01 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/posts/kvm/</guid>
+      <description>These are my notes about installing and running QEMU&#43;KVM on Debian systems.
+</description>
+    </item>
+  </channel>
+</rss>
