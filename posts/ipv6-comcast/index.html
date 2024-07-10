@@ -284,13 +284,13 @@ Make sure <code>net.ipv6.conf.all.accept_ra</code> and <code>net.ipv6.conf.&lt;i
 are <strong>both</strong> set to 2 in <code>/etc/sysctl.conf</code> (normally interface here is
 the WAN interface, eth0.)</p>
 <p>Sample <code>/etc/sysctl.conf</code> entries:</p>
+</li>
+</ul>
 <pre tabindex="0"><code>net.ipv6.conf.all.accept_ra=2
 net.ipv6.conf.eth0.accept_ra=2
 </code></pre><ul>
 <li>Note: Setting it to 1 will work partially, but the WAN interface (eth0)
 won&rsquo;t receive the default route to the Internet, breaking things.</li>
-</ul>
-</li>
 </ul>
 <p>Sample wide-dhcpv6 config (eth0 = external interface, lan0.X = internal VLANs).
 Note that PD = Prefix Discovery and NA = Normal Address:</p>
