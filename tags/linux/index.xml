@@ -4,7 +4,7 @@
     <title>Linux on paganini.net</title>
     <link>https://www.paganini.net/tags/linux/</link>
     <description>Recent content in Linux on paganini.net</description>
-    <generator>Hugo -- 0.127.0</generator>
+    <generator>Hugo -- 0.139.2</generator>
     <language>en</language>
     <copyright>paganini.net</copyright>
     <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
@@ -22,6 +22,14 @@
       <link>https://www.paganini.net/posts/posix-acls/</link>
       <pubDate>Sat, 29 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/posts/posix-acls/</guid>
+      <description>A practical set of notes on how to use POSIX ACLs (getfacl/setfacl)
+</description>
+    </item>
+    <item>
+      <title>POSIX ACLs by Example</title>
+      <link>https://www.paganini.net/posts/posix_acls/</link>
+      <pubDate>Sat, 29 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/posts/posix_acls/</guid>
       <description>A practical set of notes on how to use POSIX ACLs (getfacl/setfacl)
 </description>
     </item>

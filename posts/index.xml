@@ -4,7 +4,7 @@
     <title>Posts on paganini.net</title>
     <link>https://www.paganini.net/posts/</link>
     <description>Recent content in Posts on paganini.net</description>
-    <generator>Hugo -- 0.127.0</generator>
+    <generator>Hugo -- 0.139.2</generator>
     <language>en</language>
     <copyright>paganini.net</copyright>
     <lastBuildDate>Mon, 01 Jul 2024 00:00:00 +0000</lastBuildDate>
@@ -30,6 +30,14 @@
       <link>https://www.paganini.net/posts/posix-acls/</link>
       <pubDate>Sat, 29 Jun 2024 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/posts/posix-acls/</guid>
+      <description>A practical set of notes on how to use POSIX ACLs (getfacl/setfacl)
+</description>
+    </item>
+    <item>
+      <title>POSIX ACLs by Example</title>
+      <link>https://www.paganini.net/posts/posix_acls/</link>
+      <pubDate>Sat, 29 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://www.paganini.net/posts/posix_acls/</guid>
       <description>A practical set of notes on how to use POSIX ACLs (getfacl/setfacl)
 </description>
     </item>
@@ -62,16 +70,32 @@
       <link>https://www.paganini.net/posts/resume/</link>
       <pubDate>Sat, 11 Mar 2017 19:27:39 -0800</pubDate>
       <guid>https://www.paganini.net/posts/resume/</guid>
-      <description>Marco Paganini - Resume Foreword In 2007 I joined Google, where I currently work. This resume is heavily outdated and doesn&amp;rsquo;t reflect details of my professional experience since that date. For further information, please contact me directly at paganini[at]paganini[dot]net.
-Objective I&amp;rsquo;m drawn to challenging positions in the field of Site Reliability Engineering, Systems and Network administration, Technical Management, and/or basically anything that keeps production services up and running.
-Summary Solid knowledge of Site Reliability Engineering practices, Unix/Linux system internals, networking, automation, and monitoring of high availability production systems (Google SRE since 2007).</description>
+      <description>&lt;h1 id=&#34;marco-paganini---resume&#34;&gt;Marco Paganini - Resume&lt;/h1&gt;
+&lt;h2 id=&#34;foreword&#34;&gt;Foreword&lt;/h2&gt;
+&lt;p&gt;In 2007 I joined Google, where I currently work. This resume is heavily
+outdated and doesn&amp;rsquo;t reflect details of my professional experience since that
+date. For further information, please contact me directly at
+paganini[at]paganini[dot]net.&lt;/p&gt;
+&lt;h2 id=&#34;objective&#34;&gt;Objective&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m drawn to challenging positions in the field of Site Reliability Engineering,
+Systems and Network administration, Technical Management, and/or basically
+anything that keeps production services up and running.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Solid knowledge of Site Reliability Engineering practices, Unix/Linux system
+internals, networking, automation, and monitoring of high availability
+production systems (Google SRE since 2007).&lt;/p&gt;</description>
     </item>
     <item>
       <title>Photos and Travels</title>
       <link>https://www.paganini.net/posts/photos/</link>
       <pubDate>Sat, 11 Mar 2017 00:00:00 +0000</pubDate>
       <guid>https://www.paganini.net/posts/photos/</guid>
-      <description>Solo Mojave &amp;amp; Death Valley trip 2015 With two weeks of vacation my hands, I decided that a week-long visit to the desert was in order. Since I was alone, this was mostly a &amp;ldquo;leisure&amp;rdquo; trip, with short hikes over known spots. Also, unlike the previous trips where we had an RV, this time decided to stay in a local hotel and do day trips, coming back at night after some cooling off watching the stars.</description>
+      <description>&lt;h2 id=&#34;solo-mojave--death-valley-trip-2015&#34;&gt;Solo Mojave &amp;amp; Death Valley trip 2015&lt;/h2&gt;
+&lt;p&gt;With two weeks of vacation my hands, I decided that a week-long visit to the
+desert was in order.  Since I was alone, this was mostly a &amp;ldquo;leisure&amp;rdquo; trip, with
+short hikes over known spots.  Also, unlike the previous trips where we had an
+RV, this time decided to stay in a local hotel and do day trips, coming back at
+night after some cooling off watching the stars.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
